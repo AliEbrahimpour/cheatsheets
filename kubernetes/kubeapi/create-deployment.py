@@ -49,10 +49,9 @@ v1 = client.AppsV1Api(api_client)
 while True:
     try:
         response = v1.read_namespaced_deployment_status(name='nginx-deployment', namespace="default")
-        if response.status.available_replicas != 3:
-            print("Waiting for Deployment to become ready...")
-            time.sleep(5)
-        else:
+        if response.status.available_replicas == 3:
             break
+        print("Waiting for Deployment to become ready...")
+        time.sleep(5)
     except ApiException as e:
         print(f"Exception when calling AppsV1Api -> read_namespaced_deployment_status: {e}\n")
